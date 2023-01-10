@@ -351,7 +351,7 @@ header .links div.menu-bar.active .bar-bot {
 .sec-one .sec-con .right-con .img-con {
     background-color: var(--back-clr);
     background-blend-mode: luminosity;
-    background-image: url("./images/avatar-or.webp");
+    background-image: url("./images/avatar-or.jpg");
     background-position: center;
     background-size: cover;
     width: 300px;
@@ -952,6 +952,10 @@ section.bar-anim .jump3 {
     height: 100%;
     width: 100%;
 }
+#contact {
+    width: 100%;
+    border-radius: 0;
+}
 .sec-four {
     width: 100%;
     position: relative;
@@ -959,7 +963,12 @@ section.bar-anim .jump3 {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2em;
+    padding-bottom: 2em;
+}
+.sec-four canvas {
+    inset: 0 !important;
+    position: absolute;
+    opacity: 0.5;
 }
 .sec-four .sec-con {
     width: 90%;
@@ -1135,15 +1144,16 @@ section.bar-anim .jump3 {
     width: 100%;
     padding: 1em 1.5em;
     border-radius: 30px;
-    border: none;
     outline: none;
-    background-color: transparent;
     color: var(--text-clr);
     font-size: 0.9em;
-    background-color: var(--back-clr);
 }
 .sec-contact .sec-form .form-con .form-inputs .col textarea {
     height: 150px;
+    max-width: 100%;
+    min-width: 50%;
+    max-height: 300px;
+    min-height: 100px;
 }
 .mrg-t {
     margin-top: 1em;
@@ -1152,8 +1162,7 @@ section.bar-anim .jump3 {
 .sec-contact .sec-form .form-con .form-inputs .col input.active,
 .sec-contact .sec-form .form-con .form-inputs .col textarea:focus,
 .sec-contact .sec-form .form-con .form-inputs .col input:focus {
-    box-shadow: inset 3px 3px 7px var(--dark-clr),
-        inset -3px -3px 7px var(--light-clr);
+    backdrop-filter: blur(100px);
 }
 .sec-contact .sec-form .form-con .form-inputs .col textarea::-webkit-scrollbar {
     width: 8px;
@@ -1168,7 +1177,6 @@ section.bar-anim .jump3 {
     padding: 0.5em 3.5em;
     border-radius: 30px;
     background-color: transparent;
-    border: none;
     outline: none;
     position: absolute;
     top: 50%;
@@ -1188,6 +1196,7 @@ section.bar-anim .jump3 {
     background-color: var(--back-clr);
     position: relative;
     top: 30px;
+    margin-top: -60px;
     border-radius: 30px;
     padding: 0 1em 1em;
     display: flex;
