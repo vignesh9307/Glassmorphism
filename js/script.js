@@ -180,8 +180,12 @@ window.addEventListener("scroll", function () {
 
     body.style.setProperty(
         "--bg-zoom",
-        ((window.scrollY / body.getBoundingClientRect().height) * 100) / 3 + "%"
+        window.scrollY / body.getBoundingClientRect().height
     );
+    // body.style.setProperty(
+    //     "--bg-zoom",
+    //     ((window.scrollY / body.getBoundingClientRect().height) * 100) / 3 + "%"
+    // );
 });
 
 window.onunload = () => {

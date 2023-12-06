@@ -609,8 +609,8 @@ window.addEventListener("scroll", function (event) {
     speare.position.z = -window.scrollY * 0.03;
     // speare2.position.y = window.scrollY * 0.02 + -20;
     // speare2.position.z = -window.scrollY * 0.03 + 25;
-    resizeContainer.position.y = window.scrollY * 0.02 + -20;
-    resizeContainer.position.z = -window.scrollY * 0.03 + 25;
+    // resizeContainer.position.y = window.scrollY * 0.02 + -20;
+    // resizeContainer.position.z = -window.scrollY * 0.03 + 25;
     particulesMesh.position.y = window.scrollY * 0.01;
     const scrollerIcon = document.querySelector(".scroller");
     if (window.scrollY < 400) {
@@ -704,32 +704,32 @@ function animate() {
 }
 animate();
 
-var animProps = { scale: 1, xRot: 0, yRot: 0 };
-gsap.to(animProps, {
-    duration: 10,
-    scale: 1.05,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine",
-    onUpdate: function () {
-        renderingParent.scale.set(
-            animProps.scale,
-            animProps.scale,
-            animProps.scale
-        );
-    },
-});
-gsap.to(animProps, {
-    duration: 120,
-    xRot: Math.PI * 2,
-    yRot: Math.PI * 4,
-    repeat: -1,
-    yoyo: true,
-    ease: "none",
-    onUpdate: function () {
-        renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
-    },
-});
+// var animProps = { scale: 1, xRot: 0, yRot: 0 };
+// gsap.to(animProps, {
+//     duration: 10,
+//     scale: 1.05,
+//     repeat: -1,
+//     yoyo: true,
+//     ease: "sine",
+//     onUpdate: function () {
+//         renderingParent.scale.set(
+//             animProps.scale,
+//             animProps.scale,
+//             animProps.scale
+//         );
+//     },
+// });
+// gsap.to(animProps, {
+//     duration: 120,
+//     xRot: Math.PI * 2,
+//     yRot: Math.PI * 4,
+//     repeat: -1,
+//     yoyo: true,
+//     ease: "none",
+//     onUpdate: function () {
+//         renderingParent.rotation.set(animProps.xRot, animProps.yRot, 0);
+//     },
+// });
 
 window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;

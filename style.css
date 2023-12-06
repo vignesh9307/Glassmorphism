@@ -1643,7 +1643,8 @@ section.bar-anim .jump3 {
     background-image: url(./images/sky.webp);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: calc(130% - var(--bg-zoom, 0%));
+    background-size: cover;
+    transform: scale(calc(2 - var(--bg-zoom, 0%)));
     position: fixed;
     inset: 0;
     z-index: -2;
