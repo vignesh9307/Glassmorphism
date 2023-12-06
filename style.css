@@ -81,9 +81,12 @@ html {
     scroll-padding-top: 100px;
 }
 body {
-    /* background-color: var(--back-clr); */
-    overflow-x: hidden;
+    background-color: var(--back-clr);
+    overflow: hidden;
     width: 100vw;
+}
+body.overflow {
+    overflow-y: auto;
 }
 header {
     position: fixed;
@@ -139,6 +142,9 @@ header .links {
     position: relative;
     display: flex;
 }
+header .links a {
+    text-decoration: none;
+}
 header .links ul {
     height: 100%;
     width: 100%;
@@ -168,7 +174,7 @@ header .links ul li a:hover {
     text-shadow: 3px 3px 3px var(--dark-clr), -3px -3px 7px var(--light-clr);
 }
 header .links .togler {
-    width: 2.5em;
+    width: 2.4em;
     color: var(--text-clr);
     height: 2.3em;
     text-shadow: 3px 3px 2px var(--dark-clr), -3px -3px 7px var(--light-clr);
@@ -224,14 +230,17 @@ header .links div.menu-bar.active .bar-bot {
     left: 26%;
     height: 4px;
 }
-.togler:after {
-    content: "\e91c";
+.togler.cursor:after {
+    content: "\e900";
     font-family: "icomoon";
 }
-.togler.active:after {
-    content: "\e901";
+.togler.sword:after {
+    content: "\e903";
     font-family: "icomoon";
-    padding: 0.49em 0em;
+}
+.togler.ship:after {
+    content: "\e902";
+    font-family: "icomoon";
 }
 .topd {
     z-index: 10;
@@ -304,18 +313,18 @@ header .links div.menu-bar.active .bar-bot {
 .sec-one .sec-con .left-con .title-con h1 {
     font-size: 3em;
     color: var(--text-clr);
-    transform: translateX(-100px);
+    transform: translateX(var(--x));
     opacity: 0;
 }
 .sec-one .sec-con .left-con .para-con p {
     color: var(--text-clr);
     line-height: 1.8;
     letter-spacing: 0.8px;
-    transform: translateX(-100px);
+    transform: translateX(var(--x));
     opacity: 0;
 }
 .btn-tran {
-    transform: translateX(-100px);
+    transform: translateX(var(--x));
     opacity: 0;
 }
 .sec-one .sec-con .left-con .btn-con button {
@@ -361,6 +370,7 @@ header .links div.menu-bar.active .bar-bot {
     position: relative;
     transition: all 0.5s ease-in-out;
     transform: translateX(300px);
+    transform: translateX(var(--x));
     opacity: 0;
 }
 .sec-one .sec-con .right-con .img-con.active {
@@ -376,7 +386,7 @@ header .links div.menu-bar.active .bar-bot {
     transform: scale(1.1);
     background-blend-mode: normal;
     width: 400px;
-    box-shadow: 3px 3px 7px var(--dark-clr), -3px -3px 7px var(--light-clr);
+    /* box-shadow: 3px 3px 7px var(--dark-clr), -3px -3px 7px var(--light-clr); */
 }
 
 section.bar-anim {
@@ -1163,6 +1173,8 @@ section.bar-anim .jump3 {
 .sec-contact .sec-form .form-con .form-inputs .col textarea:focus,
 .sec-contact .sec-form .form-con .form-inputs .col input:focus {
     backdrop-filter: blur(100px);
+    border: 4px solid #fff !important;
+    box-shadow: 0px 0px 21px 4px #ff00ff, inset 0px 0px 21px 4px #ff00ff;
 }
 .sec-contact .sec-form .form-con .form-inputs .col textarea::-webkit-scrollbar {
     width: 8px;
@@ -1628,10 +1640,10 @@ section.bar-anim .jump3 {
 }
 /* canvas */
 .bg {
-    background-image: url(./images/sky.png);
+    background-image: url(./images/sky.webp);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: calc(130% - var(--bg-zoom, 0%));
     position: fixed;
     inset: 0;
     z-index: -2;
@@ -1736,17 +1748,29 @@ canvas {
     z-index: 12;
 }
 #file {
-    font-size: 200px;
+    --range: 0%;
+    font-size: 35vw;
     font-weight: bolder;
-    color: #fff;
+    color: transparent;
     text-shadow: 10px 10px 12px rgba(0, 0, 0, 0.2);
+    -webkit-text-stroke-width: 5px;
+    -webkit-text-stroke-color: #fff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* background-image: linear-gradient(45deg, #8338ec var(--range), Black); */
+}
+@media (max-width: 560px) {
+    #file {
+        font-size: 35vh;
+        transform: rotate(-90deg);
+    }
 }
 .webglCanvas {
     z-index: 2;
 }
 .flat {
     position: fixed;
-    background-image: radial-gradient(transparent, #000000ed, #000000);
+    background-image: radial-gradient(transparent, #000000aa, #000000);
     z-index: 11;
     width: 100vw;
     height: 100vh;
@@ -1792,4 +1816,48 @@ canvas {
 }
 .bg-none {
     background-color: transparent !important;
+}
+.sec-con .sec-title.active .title h2,
+.sec-con .sec-title.active .para p {
+    transform: translateY(0);
+    opacity: 1;
+}
+.title-tran {
+    transform: translateX(var(--x));
+    transition: all 0.8s linear;
+}
+.para-tran {
+    transform: translateX(var(--x));
+    transition: all 0.6s linear;
+}
+.btn-tran {
+    transform: translateX(var(--x));
+    transition: all 0.5s linear;
+}
+/* 3D style */
+.styleItems {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 1em;
+    transition: all 0.25s ease;
+    border-radius: 20px;
+    padding: 0.8em 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    color: var(--text-clr);
+    font-size: 20px;
+    transform: translateY(-10px) scale(0.8);
+    opacity: 0;
+}
+.styleItems.active {
+    width: auto;
+    opacity: 1;
+    transform: none;
+}
+.styleItems > * {
+    cursor: pointer;
+}
+section {
+    opacity: 0;
 }

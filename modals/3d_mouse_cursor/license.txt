@@ -1,0 +1,11 @@
+Model Information:
+* title:	3D Mouse Cursor
+* source:	https://sketchfab.com/3d-models/3d-mouse-cursor-d1439485ea9c4b27945950d77b91cc72
+* author:	Ayal Othman (https://sketchfab.com/aofordesign)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "3D Mouse Cursor" (https://sketchfab.com/3d-models/3d-mouse-cursor-d1439485ea9c4b27945950d77b91cc72) by Ayal Othman (https://sketchfab.com/aofordesign) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,12 +1,56 @@
+let param = new URLSearchParams(window.location.search);
+var curPageURL = window.location.href;
+var currentPageURL = new URL(curPageURL);
+let threeD = param.get("style");
+if (!threeD) {
+    threeD = "Cursor";
+}
 // toggles
 // color mode switch
 let pbody = document.querySelector("body");
 let toggl = document.querySelector(".togler");
+let styleItems = document.querySelector(".styleItems");
 
 toggl.addEventListener("click", function () {
-    pbody.classList.toggle("light");
-    toggl.classList.toggle("active");
+    // pbody.classList.toggle("light");
+    styleItems.classList.toggle("active");
 });
+
+window.addEventListener("load", () => {
+    if (threeD == "Cursor") {
+        toggl.classList.add("cursor");
+    } else if (threeD == "Sword") {
+        toggl.classList.add("sword");
+    } else if (threeD == "SpaceShip") {
+        toggl.classList.add("ship");
+    }
+});
+
+//3D style
+const toggleStyle = (whichStyle) => {
+    styleItems.classList.toggle("active");
+    switch (whichStyle) {
+        case "cursor":
+            toggl.classList.add(whichStyle);
+            toggl.classList.remove("ship");
+            toggl.classList.remove("sword");
+            currentPageURL.searchParams.set("style", "Cursor");
+            break;
+        case "ship":
+            toggl.classList.add(whichStyle);
+            toggl.classList.remove("cursor");
+            toggl.classList.remove("sword");
+            currentPageURL.searchParams.set("style", "SpaceShip");
+            break;
+        case "sword":
+            toggl.classList.add(whichStyle);
+            toggl.classList.remove("cursor");
+            toggl.classList.remove("ship");
+            currentPageURL.searchParams.set("style", "Sword");
+            break;
+    }
+    window.history.pushState({}, "", currentPageURL.toString());
+};
 
 // menu bar
 let menubar = document.querySelector(".menu-bar");
@@ -25,13 +69,13 @@ overlay.addEventListener("click", function () {
     overlay.classList.remove("active");
     menubar.classList.remove("active");
 });
-for (let i = 0; i < closecontent.length; i++) {
-    closecontent[i].addEventListener("click", function () {
+closecontent.forEach((closeBtn) => {
+    closeBtn.addEventListener("click", function () {
         showcontent.classList.remove("active");
         overlay.classList.remove("active");
         menubar.classList.remove("active");
     });
-}
+});
 for (let i = 0; i < closecontent.length; i++) {
     closecontent[i].addEventListener("click", function () {
         for (let a = 0; a < closecontent.length; a++) {
@@ -44,13 +88,13 @@ for (let i = 0; i < closecontent.length; i++) {
 let inps = document.querySelectorAll(".fname1");
 let subtn = document.querySelector(".sub-btn button");
 subtn.onclick = function () {
-    for (let o = 0; o < inps.length; o++) {
-        if (inps[o].value !== "") {
-            inps[o].classList.add("active");
+    inps.forEach((inpField) => {
+        if (inpField.value !== "") {
+            inpField.classList.add("active");
         } else {
-            inps[o].classList.remove("active");
+            inpField.classList.remove("active");
         }
-    }
+    });
 };
 //  load animation
 let body = document.querySelector("body");
@@ -61,33 +105,27 @@ let btn = document.querySelector(".btn-tran");
 let img = document.querySelector(".img-tran");
 let enterBtn = document.querySelector("#enterBtn");
 enterBtn.addEventListener("click", function () {
+    console.log("jiy");
     header.style.marginTop = "1vh";
     // title
-    title.style.transform = "translateX(0px)";
+    title.style.setProperty("--x", "0");
     title.style.opacity = "1";
     title.style.transition = "1s";
     // para
-    para.style.transform = "translateX(0px)";
+    para.style.setProperty("--x", "0");
     para.style.opacity = "1";
     para.style.transition = "1s .2s";
     // button
-    btn.style.transform = "translateX(0px)";
+    btn.style.setProperty("--x", "0");
     btn.style.opacity = "1";
     btn.style.transition = "1s .4s";
     // image
-    img.style.transform = "translateX(0px)";
+    img.style.setProperty("--x", "0");
     img.style.opacity = "1";
     img.style.transition = "1s .6s";
 });
 
-// scroll animation
-let titletop = document.querySelector(".title-top");
-let parabot = document.querySelector(".para-bottom");
-let titletopp = document.querySelector(".title-top1");
-let parabott = document.querySelector(".para-bottom1");
-let titletoppp = document.querySelector(".title-top2");
-let parabottt = document.querySelector(".para-bottom2");
-let titletopppp = document.querySelector(".title-top3");
+//Plane click
 let atop = document.querySelector(".topd");
 atop.onclick = function () {
     atop.style.animation = "ani 1s ease";
@@ -95,126 +133,60 @@ atop.onclick = function () {
 window.onscroll = function () {
     // home toggle
     if (document.documentElement.scrollTop < 700) {
-        // atop.style.opacity = "0";
-        // atop.style.transform = "rotateZ(-90deg) translateX(-80px)";
         atop.classList.remove("active");
         atop.style.animation = "none";
     } else {
         atop.classList.add("active");
-        // atop.style.opacity = "1";
-        // atop.style.transform = "rotateZ(-90deg) translateX(0px)";
-    }
-    // function call
-    let scrollT = function (scroller, scroller1) {
-        scroller.style.transform = "translateY(0px)";
-        scroller.style.opacity = "1";
-        scroller1.style.transform = "translateY(0px)";
-        scroller1.style.opacity = "1";
-    };
-    let scrollB = function (scroller, scroller1) {
-        scroller.style.transform = "translateY(-30px)";
-        scroller.style.opacity = "0";
-        scroller1.style.transform = "translateY(30px)";
-        scroller1.style.opacity = "0";
-    };
-    // desktop size
-    if (body.offsetWidth > 500) {
-        if (
-            document.documentElement.scrollTop > 250 &&
-            document.documentElement.scrollTop < 800
-        ) {
-            scrollT(titletop, parabot);
-        } else {
-            scrollB(titletop, parabot);
-        }
-        if (
-            document.documentElement.scrollTop > 2200 &&
-            document.documentElement.scrollTop < 2750
-        ) {
-            scrollT(titletopp, parabott);
-        } else {
-            scrollB(titletopp, parabott);
-        }
-        if (
-            document.documentElement.scrollTop > 3000 &&
-            document.documentElement.scrollTop < 3550
-        ) {
-            scrollT(titletoppp, parabottt);
-        } else {
-            scrollB(titletoppp, parabottt);
-        }
-        if (
-            document.documentElement.scrollTop > 3900 &&
-            document.documentElement.scrollTop < 4450
-        ) {
-            scrollT(titletopppp);
-        } else {
-            scrollB(titletopppp);
-        }
-    } else {
-        // mobile size
-        if (
-            document.documentElement.scrollTop > 400 &&
-            document.documentElement.scrollTop < 1300
-        ) {
-            scrollT(titletop, parabot);
-        } else {
-            scrollB(titletop, parabot);
-        }
-        if (
-            document.documentElement.scrollTop > 3600 &&
-            document.documentElement.scrollTop < 4300
-        ) {
-            scrollT(titletopp, parabott);
-        } else {
-            scrollB(titletopp, parabott);
-        }
-        if (
-            document.documentElement.scrollTop > 5000 &&
-            document.documentElement.scrollTop < 5800
-        ) {
-            scrollT(titletoppp, parabottt);
-        } else {
-            scrollB(titletoppp, parabottt);
-        }
-        if (
-            document.documentElement.scrollTop > 6600 &&
-            document.documentElement.scrollTop < 7200
-        ) {
-            scrollT(titletopppp);
-        } else {
-            scrollB(titletopppp);
-        }
     }
 };
+
+// scroll animation
+const scrollElements = document.querySelectorAll(".sec-title");
+let observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((ent) => {
+            ent.target.classList.toggle("active", ent.isIntersecting);
+        });
+    },
+    { threshold: 1, rootMargin: "-50px" }
+);
+scrollElements.forEach((scrollEle) => {
+    observer.observe(scrollEle);
+});
 window.addEventListener("scroll", function () {
-    let scrollV = window.scrollY;
-    if (scrollV < 500) {
-        title.style.transform = "translateX(" + scrollV * -0.5 + "px)";
-        title.style.transition = "0.8s";
-        para.style.transform = "translateX(" + scrollV * -0.4 + "px)";
-        para.style.transition = "0.6s";
-        btn.style.transform = "translateX(" + scrollV * -0.3 + "px)";
-        btn.style.transition = "0.5s";
+    if (window.scrollY < 500) {
+        title.style.setProperty("--x", window.scrollY * -0.5 + "px");
+        para.style.setProperty("--x", window.scrollY * -0.4 + "px");
+        btn.style.setProperty("--x", window.scrollY * -0.3 + "px");
     }
 
     if (body.offsetWidth < 500) {
         img.classList.remove("active");
         // small screen
-        if (300 < scrollV && 1000 > scrollV) {
-            img.style.transform = "translateX(" + (scrollV * 0.3 - 90) + "px)";
+        if (300 < window.scrollY && 1000 > window.scrollY) {
+            img.style.transform =
+                "translateX(" + (window.scrollY * 0.3 - 90) + "px)";
             img.style.transition = "all 0.2s linear 0s";
         } else {
             img.style.transform = "translateX(0px)";
         }
     } else {
         img.classList.add("active");
-        if (scrollV < 600) {
-            img.style.transform = "translateX(" + scrollV * 0.6 + "px)";
+        if (window.scrollY < 600) {
+            img.style.transform = "translateX(" + window.scrollY * 0.6 + "px)";
             img.style.transition = "all 0.5s 0s";
         }
     }
+
+    body.style.setProperty(
+        "--bg-zoom",
+        ((window.scrollY / body.getBoundingClientRect().height) * 100) / 3 + "%"
+    );
 });
+
+window.onunload = () => {
+    window.scrollTo(0, 0);
+};
 
 if (window.innerWidth < 1050) {
     showcontent.classList.add("con-til");

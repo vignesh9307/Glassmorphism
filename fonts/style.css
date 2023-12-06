@@ -1,199 +1,76 @@
 @font-face {
-  font-family: "icomoon";
-  src: url("./icomoon.eot?tydmsd");
-  src: url("./icomoon.eot?tydmsd#iefix") format("embedded-opentype"),
-    url("./icomoon.ttf?tydmsd") format("truetype"),
-    url("./icomoon.woff?tydmsd") format("woff"),
-    url("./icomoon.svg?tydmsd#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
+    font-family: "icomoon";
+    src: url("./icomoon.eot?9355ia");
+    src: url("./icomoon.eot?9355ia#iefix") format("embedded-opentype"),
+        url("./icomoon.ttf?9355ia") format("truetype"),
+        url("./icomoon.woff?9355ia") format("woff"),
+        url("./icomoon.svg?9355ia#icomoon") format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
 }
 
 [class^="icon-"],
 [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "icomoon" !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "icomoon" !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
 
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-skull:before {
-  content: "\e91d";
-}
-.icon-twitter-old:before {
-  content: "\e910";
-}
-.icon-social:before {
-  content: "\e910";
-}
-.icon-sun:before {
-  content: "\e900";
-}
-.icon-light:before {
-  content: "\e900";
-}
-.icon-brightness:before {
-  content: "\e900";
-}
-.icon-sunny:before {
-  content: "\e900";
-}
-.icon-weather:before {
-  content: "\e900";
-}
-.icon-day:before {
-  content: "\e900";
-}
-.icon-rocket2:before {
-  content: "\e920";
-}
-.icon-arrow-up:before {
-  content: "\e90a";
-}
-.icon-phone:before {
-  content: "\e90b";
-}
-.icon-local_phone:before {
-  content: "\e90b";
-}
-.icon-keyboard_arrow_up:before {
-  content: "\e90c";
-}
-.icon-arrow-up1:before {
-  content: "\e90d";
-}
-.icon-twitter1:before {
-  content: "\e90e";
-}
-.icon-facebook:before {
-  content: "\e90f";
+    content: "\e91d";
 }
 .icon-brightness-up:before {
-  content: "\e901";
-}
-.icon-brightness-down:before {
-  content: "\e902";
+    content: "\e901";
 }
 .icon-location:before {
-  content: "\e903";
-}
-.icon-email1:before {
-  content: "\e904";
-}
-.icon-moon:before {
-  content: "\e905";
-}
-.icon-paper-plane1:before {
-  content: "\e906";
-}
-.icon-instagram-with-circle:before {
-  content: "\e907";
-}
-.icon-pinterest1:before {
-  content: "\e908";
-}
-.icon-twitter-with-circle:before {
-  content: "\e909";
+    content: "\e904";
 }
 .icon-moon-fill:before {
-  content: "\e91c";
-}
-.icon-envelope:before {
-  content: "\e917";
-}
-.icon-mail:before {
-  content: "\e917";
-}
-.icon-email:before {
-  content: "\e917";
-}
-.icon-contact:before {
-  content: "\e917";
-}
-.icon-location1:before {
-  content: "\e918";
-}
-.icon-map:before {
-  content: "\e918";
-}
-.icon-compass:before {
-  content: "\e918";
-}
-.icon-direction:before {
-  content: "\e918";
-}
-.icon-twitter:before {
-  content: "\e919";
-}
-.icon-social1:before {
-  content: "\e919";
+    content: "\e91c";
 }
 .icon-office:before {
-  content: "\e91a";
+    content: "\e91a";
 }
 .icon-phone1:before {
-  content: "\e942";
-}
-.icon-circle-up:before {
-  content: "\ea41";
+    content: "\e942";
 }
 .icon-facebook1:before {
-  content: "\ea90";
-}
-.icon-facebook2:before {
-  content: "\ea91";
+    content: "\ea90";
 }
 .icon-instagram:before {
-  content: "\ea92";
+    content: "\ea92";
 }
 .icon-twitter2:before {
-  content: "\ea96";
-}
-.icon-pinterest:before {
-  content: "\ead1";
+    content: "\ea96";
 }
 .icon-pinterest2:before {
-  content: "\ead2";
-}
-.icon-rocket:before {
-  content: "\e9a5";
-}
-.icon-moon-o:before {
-  content: "\e91b";
-}
-.icon-sun-o:before {
-  content: "\e911";
+    content: "\ead2";
 }
 .icon-paper-plane:before {
-  content: "\e912";
+    content: "\e912";
 }
 .icon-send:before {
-  content: "\e912";
-}
-.icon-arrow-circle-up:before {
-  content: "\e913";
-}
-.icon-arrow-up2:before {
-  content: "\e914";
-}
-.icon-pinterest-square:before {
-  content: "\e915";
-}
-.icon-twitter-square:before {
-  content: "\e916";
+    content: "\e912";
 }
 .icon-fighter-jet:before {
-  content: "\e91e";
+    content: "\e91e";
 }
-.icon-rocket1:before {
-  content: "\e91f";
+.icon-ion_rocket-sharp:before {
+    content: "\e902";
+}
+.icon-iconamoon_cursor:before {
+    content: "\e900";
+}
+.icon-vaadin_sword:before {
+    content: "\e903";
 }

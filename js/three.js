@@ -9,6 +9,12 @@ const map = "./images/normalMapp.png";
 const map2 = "./images/normal-map-3.png";
 import { neonCursor } from "https://unpkg.com/threejs-toys@0.0.8/build/threejs-toys.module.cdn.min.js";
 
+let param = new URLSearchParams(window.location.search);
+let threeD = param.get("style");
+if (!threeD) {
+    threeD = "Cursor";
+}
+
 if (window.innerWidth > 500) {
     neonCursor({
         el: document.getElementById("app"),
@@ -53,7 +59,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-const orbit = new OrbitControls(camera, renderer.domElement);
+// const orbit = new OrbitControls(camera, renderer.domElement);
 const gui = new dat.GUI();
 // const axisHelper = new THREE.AxesHelper(5);
 // scene.add(axisHelper);
@@ -61,12 +67,12 @@ camera.position.set(0, 0, 30);
 gui.add(camera.position, "x").min(-500).max(100);
 gui.add(camera.position, "y").min(-500).max(100);
 gui.add(camera.position, "z").min(-500).max(100);
-orbit.update();
-scene.fog = new THREE.FogExp2(0x000000, 0.005);
+// orbit.update();
+// scene.fog = new THREE.FogExp2(0x000000, 0.005);
 
 // GSAP declaration
 let anim = gsap.timeline();
-let repeatAnim = gsap.timeline();
+// let repeatAnim = gsap.timeline();
 
 // Loaders
 const loadingManager = new THREE.LoadingManager();
@@ -75,6 +81,7 @@ const loadingManager = new THREE.LoadingManager();
 const progessBar = document.getElementById("file");
 loadingManager.onProgress = function (url, loaded, total) {
     let a = (loaded / total) * 100;
+    progessBar.style.setProperty("--range", Math.floor(a) + "%");
     progessBar.innerHTML = Math.floor(a) + "%";
 };
 const flatEle = document.querySelector(".flat");
@@ -88,6 +95,7 @@ loadingManager.onLoad = function () {
 enterBtn.addEventListener("click", function () {
     flatEle.style.display = "none";
     enterBtn.style.display = "none";
+    body.classList.add("overflow");
 });
 
 const textureLoader = new THREE.TextureLoader();
@@ -100,50 +108,92 @@ const mapLoader2 = textureLoader.load(map2);
 // 3D loader
 const loader = new GLTFLoader(loadingManager);
 let planet;
-loader.load(
-    "./modals/lava_planet/scene.gltf",
-    function (gltf) {
-        planet = gltf.scene.children[0];
-        planet.position.set(0, -80, 100);
-        planet.castShadow = true;
-        planet.recieveShadow = true;
-        // planet.scale.set(0.05, 0.05, 0.05); planet
-        planet.scale.set(4, 4, 4);
-        document.addEventListener("scroll", function (event) {
-            planet.position.y = window.scrollY * 0.02 + -38;
-            planet.position.z = -window.scrollY * 0.03 + 60;
-        });
-        scene.add(planet);
-        animat();
-    },
-    function (xhr) {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    },
-    function (error) {
-        console.log("error");
-    }
-);
+//Planet 3D
+// loader.load(
+//     "./modals/saturn_planet/scene.gltf",
+//     function (gltf) {
+//         planet = gltf.scene.children[0];
+//         planet.position.set(0, 0, 0);
+//         // planet.castShadow = true;
+//         // planet.recieveShadow = true;
+//         gui.add(planet.position, "x").min(-100).max(100);
+//         gui.add(planet.position, "y").min(-100).max(100);
+//         gui.add(planet.position, "z").min(-100).max(100);
+//         planet.scale.set(0.005, 0.005, 0.005);
+//         // planet.scale.set(0.4, 0.4, 0.4);
+//         document.addEventListener("scroll", function (event) {
+//             planet.position.y = window.scrollY * 0.02 + -38;
+//             planet.position.z = -window.scrollY * 0.03 + 60;
+//         });
+//         scene.add(planet);
+//         animat();
+//     },
+//     function (xhr) {
+//         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+//     },
+//     function (error) {
+//         console.log("error");
+//     }
+// );
 
-// space ship
-loader.load(
-    "./modals/spaceship_unitron/scene.gltf",
-    function (gltf) {
-        const spaceShip = gltf.scene.children[0];
-        // spaceShip.position.set(3, -80, 100);
-        spaceShip.position.set(20, 15, -10);
-        spaceShip.rotation.set(0, 0, -4);
-        // gui.add(spaceShip.rotation, "z").min(-10).max(10);
-        // spaceShip.scale.set(0.05, 0.05, 0.05); planet
-        spaceShip.scale.set(0.1, 0.1, 0.1);
-        enterBtn.addEventListener("click", function () {
-            anim.to(spaceShip.position, {
+//Enter animation
+enterBtn.addEventListener("click", function () {
+    switch (threeD) {
+        case "Cursor":
+            //Cursor
+            cursorObj.scale.set(0.7, 0.7, 0.7);
+            anim.to(cursorObj.position, {
                 x: 6,
                 y: 4,
                 z: 10,
                 duration: 1.5,
             });
             anim.to(
-                spaceShip.rotation,
+                cursorObj.rotation,
+                {
+                    x: 4.2,
+                    y: 4.2,
+                    z: 3.4,
+                    duration: 1.5,
+                },
+                "-=1.5"
+            );
+            spaceShipObj.scale.set(0, 0, 0);
+            swordObj.scale.set(0, 0, 0);
+            break;
+        case "Sword":
+            //Sword
+            swordObj.scale.set(0.04, 0.04, 0.04);
+            anim.to(swordObj.position, {
+                x: 6,
+                y: 4,
+                z: 10,
+                duration: 1.5,
+            });
+            anim.to(
+                swordObj.rotation,
+                {
+                    x: 4.2,
+                    y: 4.2,
+                    z: 3.4,
+                    duration: 1.5,
+                },
+                "-=1.5"
+            );
+            spaceShipObj.scale.set(0, 0, 0);
+            cursorObj.scale.set(0, 0, 0);
+            break;
+        case "SpaceShip":
+            //Spaceship
+            spaceShipObj.scale.set(20, 20, 20);
+            anim.to(spaceShipObj.position, {
+                x: 6,
+                y: 4,
+                z: 10,
+                duration: 1.5,
+            });
+            anim.to(
+                spaceShipObj.rotation,
                 {
                     x: -1,
                     y: 0,
@@ -152,15 +202,127 @@ loader.load(
                 },
                 "-=1.5"
             );
-        });
+            swordObj.scale.set(0, 0, 0);
+            cursorObj.scale.set(0, 0, 0);
+            break;
+    }
+});
+//toggle 3D elements
+let onceCursor = true;
+document.querySelector("#cursorBtn").addEventListener("click", () => {
+    if (window.scrollY > 0) {
+        cursorObj.scale.set(0.7, 0.7, 0.7);
+        spaceShipObj.scale.set(0, 0, 0);
+        swordObj.scale.set(0, 0, 0);
+    } else {
+        //Cursor
+        cursorObj.scale.set(0.7, 0.7, 0.7);
+        if (onceCursor) {
+            onceCursor = false;
+            anim.to(cursorObj.position, {
+                x: 6,
+                y: 4,
+                z: 10,
+                duration: 1.5,
+            });
+            anim.to(
+                cursorObj.rotation,
+                {
+                    x: 4.2,
+                    y: 4.2,
+                    z: 3.4,
+                    duration: 1.5,
+                },
+                "-=1.5"
+            );
+        }
+        spaceShipObj.scale.set(0, 0, 0);
+        swordObj.scale.set(0, 0, 0);
+    }
+});
+let onceSword = true;
+document.querySelector("#swordBtn").addEventListener("click", () => {
+    if (window.scrollY > 0) {
+        swordObj.scale.set(0.04, 0.04, 0.04);
+        spaceShipObj.scale.set(0, 0, 0);
+        cursorObj.scale.set(0, 0, 0);
+    } else {
+        swordObj.scale.set(0.04, 0.04, 0.04);
+        if (onceSword) {
+            onceSword = false;
+            anim.to(swordObj.position, {
+                x: 6,
+                y: 4,
+                z: 10,
+                duration: 1.5,
+            });
+            anim.to(
+                swordObj.rotation,
+                {
+                    x: 4.2,
+                    y: 4.2,
+                    z: 3.4,
+                    duration: 1.5,
+                },
+                "-=1.5"
+            );
+        }
+        spaceShipObj.scale.set(0, 0, 0);
+        cursorObj.scale.set(0, 0, 0);
+    }
+});
+let onceShip = true;
+document.querySelector("#shipBtn").addEventListener("click", () => {
+    if (window.scrollY > 0) {
+        spaceShipObj.scale.set(20, 20, 20);
+        swordObj.scale.set(0, 0, 0);
+        cursorObj.scale.set(0, 0, 0);
+    } else {
+        spaceShipObj.scale.set(20, 20, 20);
+        if (onceShip) {
+            onceShip = false;
+            anim.to(spaceShipObj.position, {
+                x: 6,
+                y: 4,
+                z: 10,
+                duration: 1.5,
+            });
+            anim.to(
+                spaceShipObj.rotation,
+                {
+                    x: -1,
+                    y: 0,
+                    z: -4,
+                    duration: 1.5,
+                },
+                "-=1.5"
+            );
+        }
+        swordObj.scale.set(0, 0, 0);
+        cursorObj.scale.set(0, 0, 0);
+    }
+});
+
+// cursor
+let cursorObj = new THREE.Group();
+loader.load(
+    "./modals/3d_mouse_cursor/scene.gltf",
+    function (gltf) {
+        const spaceShip = gltf.scene.children[0];
+        cursorObj.add(spaceShip);
+        spaceShip.position.set(0, 0, 0);
+        spaceShip.rotation.set(1.4, -0.7, 5.5);
+        cursorObj.position.set(45, 35, -50);
+        cursorObj.rotation.set(4.2, 4.2, -4);
+        cursorObj.scale.set(0.7, 0.7, 0.7);
+
         document.addEventListener("scroll", function (event) {
-            spaceShip.rotation.x = -window.scrollY * 0.002 + -1;
-            spaceShip.rotation.y = -window.scrollY * 0.002 + 0;
-            spaceShip.position.x = -window.scrollY * 0.02 + 6;
-            spaceShip.position.y = -window.scrollY * 0.01 + 4;
-            spaceShip.position.z = window.scrollY * 0.03 + 10;
+            cursorObj.rotation.z = window.scrollY * 0.01 + 3.4;
+            cursorObj.position.x = -window.scrollY * 0.02 + 6;
+            cursorObj.position.y = -window.scrollY * 0.01 + 4;
+            cursorObj.position.z = window.scrollY * 0.02 + 10;
         });
-        scene.add(spaceShip);
+        scene.add(cursorObj);
     },
     function (xhr) {
         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
@@ -169,60 +331,108 @@ loader.load(
         console.log("error");
     }
 );
+// Sword
+let swordObj;
+loader.load(
+    "./modals/Sword/crystal_longsword_game_ready_asset.glb",
+    function (gltf) {
+        swordObj = gltf.scene.children[0];
+        swordObj.position.set(45, 35, -50);
+        swordObj.rotation.set(4.2, 4.2, -4);
+        swordObj.scale.set(0.04, 0.04, 0.04);
 
-// mini space ship
+        document.addEventListener("scroll", function (event) {
+            swordObj.rotation.z = window.scrollY * 0.01 + 3.4;
+            swordObj.position.x = -window.scrollY * 0.02 + 6;
+            swordObj.position.y = -window.scrollY * 0.01 + 4;
+            swordObj.position.z = window.scrollY * 0.03 + 10;
+        });
+        scene.add(swordObj);
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    function (error) {
+        console.log("error");
+    }
+);
+//Spaceship
+let spaceShipObj;
+loader.load(
+    "./modals/spaceship/scene.gltf",
+    function (gltf) {
+        spaceShipObj = gltf.scene.children[0];
+        // spaceShipObj.position.set(3, -80, 100);
+        spaceShipObj.position.set(45, 35, -50);
+        spaceShipObj.rotation.set(0, 0, -4);
+        // gui.add(spaceShipObj.rotation, "z").min(-10).max(10);
+        // spaceShipObj.scale.set(0.05, 0.05, 0.05); planet
+        spaceShipObj.scale.set(20, 20, 20);
+
+        document.addEventListener("scroll", function (event) {
+            spaceShipObj.rotation.x = -window.scrollY * 0.002 + -1;
+            spaceShipObj.rotation.y = -window.scrollY * 0.002 + 0;
+            spaceShipObj.position.x = -window.scrollY * 0.02 + 6;
+            spaceShipObj.position.y = -window.scrollY * 0.01 + 4;
+            spaceShipObj.position.z = window.scrollY * 0.03 + 10;
+        });
+        scene.add(spaceShipObj);
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    function (error) {
+        console.log("error");
+    }
+);
 // loader.load(
-//   "./modals/xian_spaceship/scene.gltf",
-//   function (gltf) {
-//     const spaceShip = gltf.scene.children[0];
-//     // spaceShip.position.set(3, -80, 100);
-//     spaceShip.position.set(-15, -100, 0);
-//     spaceShip.rotation.set(3, 0, 4.7);
-//     gui.add(spaceShip.position, "x").min(-20).max(10);
-//     gui.add(spaceShip.position, "y").min(-20).max(10);
-//     gui.add(spaceShip.position, "z").min(-20).max(10);
-//     gui.add(spaceShip.rotation, "x").min(-5).max(5);
-//     gui.add(spaceShip.rotation, "y").min(-5).max(5);
-//     gui.add(spaceShip.rotation, "z").min(-5).max(5);
-//     spaceShip.scale.set(0.1, 0.1, 0.1);
-//     // var repeat = repeatAnim.repeat(-1);
-//     // repeat
-//     //     .to(spaceShip.position, {
-//     //         x: -15.05,
-//     //         y: -10.05,
-//     //         z: 0,
-//     //         duration: 0.1,
-//     //     })
-//     //     .yoyo(true);
-//     anim.to(spaceShip.position, {
-//       x: -15,
-//       y: -10,
-//       z: 0,
-//       duration: 2.5,
-//     });
-//     anim.to(
-//       spaceShip.rotation,
-//       {
-//         y: 10,
-//         duration: 2.5,
-//       },
-//       "-=2.5"
-//     );
-//     // document.addEventListener("scroll", function (event) {
-//     //     spaceShip.rotation.x = -window.scrollY * 0.002 + -1;
-//     //     spaceShip.rotation.y = -window.scrollY * 0.002 + 0;
-//     //     spaceShip.position.x = -window.scrollY * 0.02 + 6;
-//     //     spaceShip.position.y = -window.scrollY * 0.01 + 4;
-//     //     spaceShip.position.z = window.scrollY * 0.03 + 10;
-//     // });
-//     scene.add(spaceShip);
-//   },
-//   function (xhr) {
-//     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-//   },
-//   function (error) {
-//     console.log("error");
-//   }
+//     "./modals/guardians_spaceship/scene.gltf",
+//     function (gltf) {
+//         const spaceShip = gltf.scene.children[0];
+//         // spaceShip.position.set(3, -80, 100);
+//         spaceShip.position.set(45, 35, -50);
+//         spaceShip.rotation.set(0, 0, -4);
+//         gui.add(spaceShip.position, "x").min(-100).max(100);
+//         gui.add(spaceShip.position, "y").min(-100).max(100);
+//         gui.add(spaceShip.position, "z").min(-100).max(100);
+//         gui.add(spaceShip.rotation, "x").min(-100).max(100);
+//         gui.add(spaceShip.rotation, "y").min(-100).max(100);
+//         gui.add(spaceShip.rotation, "z").min(-100).max(100);
+//         // spaceShip.scale.set(0.05, 0.05, 0.05); planet
+//         spaceShip.scale.set(0.001, 0.001, 0.001);
+//         // enterBtn.addEventListener("click", function () {
+//         //     anim.to(spaceShip.position, {
+//         //         x: 6,
+//         //         y: 4,
+//         //         z: 10,
+//         //         duration: 1.5,
+//         //     });
+//         //     anim.to(
+//         //         spaceShip.rotation,
+//         //         {
+//         //             x: -1,
+//         //             y: 0,
+//         //             z: -4,
+//         //             duration: 1.5,
+//         //         },
+//         //         "-=1.5"
+//         //     );
+//         // });
+//         document.addEventListener("scroll", function (event) {
+//             spaceShip.rotation.x = -window.scrollY * 0.002 + -1;
+//             spaceShip.rotation.y = -window.scrollY * 0.002 + 0;
+//             spaceShip.position.x = -window.scrollY * 0.02 + 6;
+//             spaceShip.position.y = -window.scrollY * 0.01 + 4;
+//             spaceShip.position.z = window.scrollY * 0.03 + 10;
+//         });
+//         scene.add(spaceShip);
+//     },
+//     function (xhr) {
+//         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+//     },
+//     function (error) {
+//         console.log("error");
+//     }
 // );
 
 // particles
@@ -246,37 +456,37 @@ const particulesMesh = new THREE.Points(particulesGeometry, pointMaterial);
 scene.add(particulesMesh);
 
 // Circle Particles
-const distance = Math.min(100, 6);
-const geometry = new THREE.Geometry();
+// const distance = Math.min(100, 6);
+// const geometry = new THREE.Geometry();
 
-for (var i = 0; i < 2500; i++) {
-    const vertex = new THREE.Vector3();
-    const theta = THREE.Math.randFloatSpread(360);
-    const phi = THREE.Math.randFloatSpread(360);
+// for (var i = 0; i < 2500; i++) {
+//     const vertex = new THREE.Vector3();
+//     const theta = THREE.Math.randFloatSpread(360);
+//     const phi = THREE.Math.randFloatSpread(360);
 
-    vertex.x = distance * Math.sin(theta) * Math.cos(phi);
-    vertex.y = distance * Math.sin(theta) * Math.sin(phi);
-    vertex.z = distance * Math.cos(theta);
+//     vertex.x = distance * Math.sin(theta) * Math.cos(phi);
+//     vertex.y = distance * Math.sin(theta) * Math.sin(phi);
+//     vertex.z = distance * Math.cos(theta);
 
-    geometry.vertices.push(vertex);
-}
+//     geometry.vertices.push(vertex);
+// }
 
-const partclesCircle = new THREE.Points(
-    geometry,
-    new THREE.PointsMaterial({
-        color: 0x4832ec,
-        size: 0.1,
-    })
-);
-partclesCircle.castShadow = true;
-partclesCircle.recieveShadow = true;
+// const partclesCircle = new THREE.Points(
+//     geometry,
+//     new THREE.PointsMaterial({
+//         color: 0xff32ec,
+//         size: 0.1,
+//     })
+// );
+// partclesCircle.castShadow = true;
+// partclesCircle.recieveShadow = true;
 // partclesCircle.boundingSphere = 50;
-const renderingParent = new THREE.Group();
-renderingParent.add(partclesCircle);
-const resizeContainer = new THREE.Group();
-resizeContainer.add(renderingParent);
-resizeContainer.position.set(0, -40, 50);
-scene.add(resizeContainer);
+// const renderingParent = new THREE.Group();
+// renderingParent.add(partclesCircle);
+// const resizeContainer = new THREE.Group();
+// resizeContainer.add(renderingParent);
+// resizeContainer.position.set(0, -40, 50);
+// scene.add(resizeContainer);
 
 // shapes
 // BOX
@@ -320,18 +530,18 @@ speare.position.set(0, 40, -50);
 speare.castShadow = true;
 scene.add(speare);
 // speare 2
-const spear2Mat = new THREE.MeshStandardMaterial({
-    map: textureLoader.load(nebula),
-    // wireframe: true,
-});
-// spear2Mat.metalness = 10;
-// spear2Mat.roughness = 0.45;
-spear2Mat.normalMap = mapLoader2;
-const speare2 = new THREE.Mesh(sprareGeo, spear2Mat);
-speare2.position.set(0, -40, 50);
-// speare.rotation.y = 18;
-speare2.castShadow = true;
-scene.add(speare2);
+// const spear2Mat = new THREE.MeshStandardMaterial({
+//     map: textureLoader.load(nebula),
+//     // wireframe: true,
+// });
+// // spear2Mat.metalness = 10;
+// // spear2Mat.roughness = 0.45;
+// spear2Mat.normalMap = mapLoader2;
+// const speare2 = new THREE.Mesh(sprareGeo, spear2Mat);
+// speare2.position.set(0, -40, 50);
+// // speare.rotation.y = 18;
+// speare2.castShadow = true;
+// scene.add(speare2);
 // Particle Light
 const particuleGeo = new THREE.SphereGeometry(0.5, 8, 8);
 const partiMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
@@ -397,8 +607,8 @@ document.addEventListener("mousemove", function (event) {
 window.addEventListener("scroll", function (event) {
     speare.position.y = window.scrollY * 0.02;
     speare.position.z = -window.scrollY * 0.03;
-    speare2.position.y = window.scrollY * 0.02 + -20;
-    speare2.position.z = -window.scrollY * 0.03 + 25;
+    // speare2.position.y = window.scrollY * 0.02 + -20;
+    // speare2.position.z = -window.scrollY * 0.03 + 25;
     resizeContainer.position.y = window.scrollY * 0.02 + -20;
     resizeContainer.position.z = -window.scrollY * 0.03 + 25;
     particulesMesh.position.y = window.scrollY * 0.01;
@@ -426,14 +636,12 @@ function animat(event) {
     // box.rotation.y += 0.01;
     speare.rotation.x += 0.001;
     speare.rotation.y += 0.001;
-    speare2.rotation.x += 0.005;
-    speare2.rotation.y += 0.005;
+    // speare2.rotation.x += 0.005;
+    // speare2.rotation.y += 0.005;
     if (planet) {
-        planet.rotation.x += 0.0009;
-        planet.rotation.y += 0.0009;
-        planet.rotation.y += 0.03 * (targetX - planet.rotation.y);
-        planet.rotation.x += 0.03 * (targetY - planet.rotation.x);
-        planet.rotation.z += -0.03 * (targetY - planet.rotation.x);
+        planet.rotation.y += 0.05 * (targetX - planet.rotation.y);
+        planet.rotation.x += 0.05 * (targetY - planet.rotation.x);
+        planet.rotation.z += -0.05 * (targetY - planet.rotation.x);
     }
 
     targetX = mouseX * 0.001;
@@ -447,9 +655,9 @@ function animat(event) {
     speare.rotation.y += 0.05 * (targetX - speare.rotation.y);
     speare.rotation.x += 0.05 * (targetY - speare.rotation.x);
     speare.rotation.z += -0.05 * (targetY - speare.rotation.x);
-    speare2.rotation.y += 0.05 * (targetX - speare2.rotation.y);
-    speare2.rotation.x += 0.05 * (targetY - speare2.rotation.x);
-    speare2.rotation.z += -0.05 * (targetY - speare2.rotation.x);
+    // speare2.rotation.y += 0.05 * (targetX - speare2.rotation.y);
+    // speare2.rotation.x += 0.05 * (targetY - speare2.rotation.x);
+    // speare2.rotation.z += -0.05 * (targetY - speare2.rotation.x);
     // planet.rotation.y += 0.05 * (targetX - planet.rotation.y);
     // planet.rotation.x += 0.05 * (targetY - planet.rotation.x);
     // planet.rotation.z += -0.05 * (targetY - planet.rotation.x);
