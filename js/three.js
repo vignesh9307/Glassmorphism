@@ -60,13 +60,13 @@ const camera = new THREE.PerspectiveCamera(
     1000
 );
 // const orbit = new OrbitControls(camera, renderer.domElement);
-const gui = new dat.GUI();
+// const gui = new dat.GUI();
 // const axisHelper = new THREE.AxesHelper(5);
 // scene.add(axisHelper);
 camera.position.set(0, 0, 30);
-gui.add(camera.position, "x").min(-500).max(100);
-gui.add(camera.position, "y").min(-500).max(100);
-gui.add(camera.position, "z").min(-500).max(100);
+// gui.add(camera.position, "x").min(-500).max(100);
+// gui.add(camera.position, "y").min(-500).max(100);
+// gui.add(camera.position, "z").min(-500).max(100);
 // orbit.update();
 // scene.fog = new THREE.FogExp2(0x000000, 0.005);
 
