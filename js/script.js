@@ -197,3 +197,12 @@ if (window.innerWidth < 1050) {
 } else {
     showcontent.classList.remove("con-til");
 }
+
+// Copy clipboard
+const copyClipboard = () => {
+    copyClipboardTag.setAttribute("tooltip-content", "Copied to clipboard");
+    navigator.clipboard.writeText("+91 8610617162");
+    setTimeout(() => {
+        copyClipboardTag.setAttribute("tooltip-content", "+91 86106 17162");
+    }, 2000);
+};
